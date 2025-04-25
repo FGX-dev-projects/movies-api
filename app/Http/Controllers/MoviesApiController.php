@@ -32,19 +32,26 @@ class MoviesApiController extends Controller
     }
 
     public function movies($cinemaId)
-    {
-        $movies = $this->movies->getMoviesByCinema($cinemaId);
+{
+    $movies = $this->movies->getMoviesByCinema($cinemaId);
     
-        foreach ($movies['data'] ?? [] as &$movie) {
-            if (!empty($movie['poster_file']) && !empty($movie['movie_id'])) {
-                $movie['poster_url'] = $this->movies->getPosterUrl($movie['movie_id'], $movie['poster_file']);
+    if (isset($movies['data']) && is_array($movies['data'])) {
+        foreach ($movies['data'] as $key => $movie) {
+            if (!empty($movie['movie_poster']) && !empty($movie['movie_id'])) {
+                $posterUrl = $this->movies->getPosterUrl(
+                    $movie['movie_id'], 
+                    $movie['movie_poster'], 
+                    216
+                );
+                $movies['data'][$key]['poster_url'] = $posterUrl;
             } else {
-                $movie['poster_url'] = asset('images/default-poster.jpg'); // Fallback image
+                $movies['data'][$key]['poster_url'] = asset('images/default-poster.jpg');
             }
         }
-    
-        return response()->json($movies);
     }
+    
+    return response()->json($movies);
+}
     
 
 }

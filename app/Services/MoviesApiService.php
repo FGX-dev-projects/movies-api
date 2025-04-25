@@ -37,7 +37,7 @@ class MoviesApiService
     
 
     //get movie poster image url
-    public function getPosterUrl($movieId, $posterFileName, $resolution = 216)
+    public function getPosterUrl($movieId, $posterFileName, $resolution )
     {
         return config('services.movies_api.image_base') . "/{$movieId}/{$resolution}/{$posterFileName}";
     }
