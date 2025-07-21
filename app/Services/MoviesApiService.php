@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Log;
 
 class MoviesApiService
 {
@@ -20,11 +21,22 @@ class MoviesApiService
 
     //get list of all cinemas
     public function getCinemas()
-    {
-        return Http::withBasicAuth($this->username, $this->apiKey)
-            ->get("{$this->baseUrl}/getCinemas")
-            ->json();
-    }
+{
+    $url = "{$this->baseUrl}/getCinemas";
+    Log::info('Sending request to getCinemas', [
+        'url' => $url,
+        'method' => 'GET',
+        'headers' => ['Authorization' => 'Basic ' . base64_encode("{$this->username}:{$this->apiKey}")]
+    ]);
+
+    $response = Http::withBasicAuth($this->username, $this->apiKey)
+        ->get($url)
+        ->json();
+
+    Log::info('getCinemas raw response', ['response' => $response]);
+
+    return $response;
+}
 
     //get movies by cinema
     public function getMoviesByCinema($cinemaId)
