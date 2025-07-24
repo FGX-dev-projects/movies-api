@@ -6,6 +6,7 @@ use App\Services\MoviesApiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Log;
 
 class MoviesApiController extends Controller
 {
