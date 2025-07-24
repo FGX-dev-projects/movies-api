@@ -21,35 +21,50 @@ class MoviesApiService
 
     //get list of all cinemas
     public function getCinemas()
-{
-    $url = "{$this->baseUrl}/getCinemas";
-    Log::info('Sending request to getCinemas', [
-        'url' => $url,
-        'method' => 'GET',
-        'headers' => ['Authorization' => 'Basic ' . base64_encode("{$this->username}:{$this->apiKey}")]
-    ]);
+    {
+        $url = "{$this->baseUrl}/getCinemas";
+        Log::info('Sending request to getCinemas', [
+            'url' => $url,
+            'method' => 'GET',
+            'headers' => ['Authorization' => 'Basic ' . base64_encode("{$this->username}:{$this->apiKey}")]
+        ]);
 
-    $response = Http::withBasicAuth($this->username, $this->apiKey)
-        ->get($url)
-        ->json();
+        $response = Http::withBasicAuth($this->username, $this->apiKey)
+            ->get($url)
+            ->json();
 
-    Log::info('getCinemas raw response', ['response' => $response]);
+        Log::info('getCinemas raw response', ['response' => $response]);
 
-    return $response;
-}
+        return $response;
+    }
 
     //get movies by cinema
     public function getMoviesByCinema($cinemaId)
     {
-        return Http::withBasicAuth($this->username, $this->apiKey)
-                ->get("{$this->baseUrl}/getMovieListMinimal", ['cinema_id' => $cinemaId])
-                ->json();
+        $url = "{$this->baseUrl}/getMovieListMinimal";
+        Log::info('Sending request to getMoviesByCinema', [
+            'url' => $url,
+            'method' => 'GET',
+            'query' => ['cinema_id' => $cinemaId],
+            'headers' => ['Authorization' => 'Basic ' . base64_encode("{$this->username}:{$this->apiKey}")]
+        ]);
+
+        $response = Http::withBasicAuth($this->username, $this->apiKey)
+            ->get($url, ['cinema_id' => $cinemaId])
+            ->json();
+
+        Log::info('getMoviesByCinema response', [
+            'cinema_id' => $cinemaId,
+            'response' => $response
+        ]);
+
+        return $response;
     }
 
-    
+
 
     //get movie poster image url
-    public function getPosterUrl($movieId, $posterFileName, $resolution )
+    public function getPosterUrl($movieId, $posterFileName, $resolution)
     {
         return config('services.movies_api.image_base') . "/{$movieId}/{$resolution}/{$posterFileName}";
     }
