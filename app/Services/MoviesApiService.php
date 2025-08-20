@@ -23,17 +23,17 @@ class MoviesApiService
     public function getCinemas()
     {
         $url = "{$this->baseUrl}/getCinemas";
-        // Log::info('Sending request to getCinemas', [
-        //     'url' => $url,
-        //     'method' => 'GET',
-        //     'headers' => ['Authorization' => 'Basic ' . base64_encode("{$this->username}:{$this->apiKey}")]
-        // ]);
+        Log::info('Sending request to getCinemas', [
+            'url' => $url,
+            'method' => 'GET',
+            'headers' => ['Authorization' => 'Basic ' . base64_encode("{$this->username}:{$this->apiKey}")]
+        ]);
 
         $response = Http::withBasicAuth($this->username, $this->apiKey)
             ->get($url)
             ->json();
 
-        // Log::info('getCinemas raw response', ['response' => $response]);
+        Log::info('getCinemas raw response', ['response' => $response]);
 
         return $response;
     }
@@ -42,21 +42,21 @@ class MoviesApiService
     public function getMoviesByCinema($cinemaId)
     {
         $url = "{$this->baseUrl}/getMovieListMinimal";
-        // Log::info('Sending request to getMoviesByCinema', [
-        //     'url' => $url,
-        //     'method' => 'GET',
-        //     'query' => ['cinema_id' => $cinemaId],
-        //     'headers' => ['Authorization' => 'Basic ' . base64_encode("{$this->username}:{$this->apiKey}")]
-        // ]);
+        Log::info('Sending request to getMoviesByCinema', [
+            'url' => $url,
+            'method' => 'GET',
+            'query' => ['cinema_id' => $cinemaId],
+            'headers' => ['Authorization' => 'Basic ' . base64_encode("{$this->username}:{$this->apiKey}")]
+        ]);
 
         $response = Http::withBasicAuth($this->username, $this->apiKey)
             ->get($url, ['cinema_id' => $cinemaId])
             ->json();
 
-        // Log::info('getMoviesByCinema response', [
-        //     'cinema_id' => $cinemaId,
-        //     'response' => $response
-        // ]);
+        Log::info('getMoviesByCinema response', [
+            'cinema_id' => $cinemaId,
+            'response' => $response
+        ]);
 
         return $response;
     }
