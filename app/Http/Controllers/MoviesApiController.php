@@ -11,12 +11,12 @@ use Log;
 class MoviesApiController extends Controller
 {
     protected $movies;
-    protected $allowedIds = [11]; // Centralized configuration - move to config file in production
+    protected $allowedIds = [44, 25, 9, 39, 40]; // Centralized configuration - move to config file in production
 
     public function __construct(MoviesApiService $movies)
     {
         $this->movies = $movies;
-        // In production, this should come from config: $this->allowedIds = config('movies.allowed_cinema_ids', [11]);
+        // In production, this should come from config: $this->allowedIds = config('movies.allowed_cinema_ids', [44, 25, 9, 39, 40]);
     }
 
     // Return a filtered list of cinemas (cache for 30 days)
